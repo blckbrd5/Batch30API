@@ -14,14 +14,14 @@ public class GetRequest01 {
 //    Ve Status Line'in           HTTP/1.1 200 OK
 //    Oldugunu test edin.
 
-    // ||============  API TESTI YAPILIRKEN YAPILACAK ADIMLAR    =============||
-    // ||   1. URL  (endpoint) belirlenmeli.                                                                                ||
-    // ||   2. Beklenen sonuc (expected result) olusturulur.                                                   ||
-    // ||   {bu case de bu adima gerek yok , cunku body dogrulanmasi istenmedi}     ||
-    // ||   3. Request gonderilir.                                                                                                 ||
-    // ||   4. Actual result olusturulur.                                                                                         ||
-    // ||   5. Dogrulama (assertion) yapilir.                                                                              ||
-    //================================================================||
+    //  ============  API TESTI YAPILIRKEN YAPILACAK ADIMLAR    =========
+    //  1. URL  (endpoint) belirlenmeli.
+    //    2. Beklenen sonuc (expected result) olusturulur.
+    //   {bu case de bu adima gerek yok , cunku body dogrulanmasi istenmedi}
+    //    3. Request gonderilir.
+    //   4. Actual result olusturulur.
+    //   5. Dogrulama (assertion) yapilir.
+    // =============================================================
  @Test
 
  public  void test01 () {
