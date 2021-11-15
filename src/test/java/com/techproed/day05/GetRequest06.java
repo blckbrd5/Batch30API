@@ -1,43 +1,63 @@
 package com.techproed.day05;
 
+import com.techproed.testBase.JsonPlaceHolderTestBase;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.equalTo;
 
-public class GetRequest06 {
+public class GetRequest06 extends JsonPlaceHolderTestBase {
+
+    // https://jsonplaceholder.typicode.com/todos/123 url'ine, accept type'i "application/json" olan
+    // GET request'i yolladigimda gelen response’un;
+    // status kodunun 200, content type'inin "application/json", Headers'daki "Server" in "cloudflare",
+    // response body'deki "userId"'nin 7, "title" in "esse et quis iste est earum aut impedit" ve
+    // "completed" bolumunun false oldugunu test edin
 
     @Test
-
     public void test() {
 
-//        https://jsonplaceholder.typicode.com/todos/123 url'ine
-//        accept type'i "application/json" olan GET request'i yolladigimda
-//        gelen response’un
-//        status kodunun 200
-//        ve content type'inin "application/json"
-//        ve Headers'daki "Server" in "cloudflare"
-//        ve response body'deki "userId"'nin 7
-//        ve "title" in "esse et quis iste est earum aut impedit"
-//        ve "completed" bolumunun false oldugunu test edin
+        // URL' i belirle
 
-        String url = " https://jsonplaceholder.typicode.com/todos/123";
-        String url2 = " spec01/todos/123";
+        // String url = "https://jsonplaceholder.typicode.com/todos/123";
 
+        spec01.pathParams("parametre1","todos",
+
+                "parametre2",123);
+
+        // Request gonder
 
         Response response = given().
+
                 accept("application/json").
+
+                spec(spec01).
+
                 when().
-                get(url);
+
+                get("/{parametre1}/{parametre2}");
 
         response.prettyPrint();
 
         response.then().
-               assertThat().
-               statusCode(200).
-              contentType("application/json").
-               header("Server",equalTo("cloudfare")).
+
+                assertThat().
+
+                statusCode(200).
+
+                contentType(ContentType.JSON).
+
+                header("Server",equalTo("cloudflare")).
+
+                body("userId",equalTo(7),
+
+                        "title",equalTo("esse et quis iste est earum aut impedit"),
+
+                        "completed",equalTo(false));
 
     }
+
 }
