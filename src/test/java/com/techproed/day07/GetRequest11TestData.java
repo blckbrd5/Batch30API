@@ -1,55 +1,36 @@
 package com.techproed.day07;
 
-import com.techproed.testBase.DummyTestBase;
 import com.techproed.testBase.JsonPlaceHolderTestBase;
+import com.techproed.testData.JsonPlaceHolderTestData;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-
-
-import static  org.hamcrest.Matchers.*;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
-public class GetRequest11 extends JsonPlaceHolderTestBase {
-    /*
-    https://jsonplaceholder.typicode.com/todos/2 url ‘ine istek gönderildiğinde,
-   Dönen response un
-   Status kodunun 200, dönen body de,
-       "completed": değerinin false
-       "title”: değerinin “quis ut nam facilis et officia qui”
-       "userId" sinin 1 ve header değerlerinden
-      " Via" değerinin “1.1 vegur” ve
-       "Server" değerinin “cloudflare” olduğunu test edin…
-     */
-
+public class GetRequest11TestData extends JsonPlaceHolderTestBase {
     @Test
     public void test() {
 
         spec01.pathParams("first", "todos",
-                           "second","2");
+                "second","2");
 
-        HashMap<String,Object> expectedData = new HashMap<String,Object>();
 
-          expectedData.put("statusCode",200);
-          expectedData.put("via","1.1 vegur");
-          expectedData.put("Server","cloudflare");
-          expectedData.put("userId",1);
-          expectedData.put("title","quis ut nam facilis et officia qui");
-          expectedData.put("completed",false);
+        JsonPlaceHolderTestData expectedObje = new JsonPlaceHolderTestData();
 
-        System.out.println(expectedData);
+        HashMap<String,Object> expectedData = (HashMap<String, Object>) expectedObje.setUpTestData();
 
-      Response response = given().
-                                           accept("application/json").
-                                            spec(spec01).
-                                            when().
-                                            get("/{first}/{second}");
+
+
+        Response response = given().
+                accept("application/json").
+                spec(spec01).
+                when().
+                get("/{first}/{second}");
 
         response.prettyPrint();
 
@@ -62,7 +43,7 @@ public class GetRequest11 extends JsonPlaceHolderTestBase {
                         "title",equalTo(expectedData.get("title")),
                         "completed",equalTo(expectedData.get("completed")));
 
-         // 2. yontem
+        // 2. yontem
 
         JsonPath jsonPath = response.jsonPath();
 
@@ -78,9 +59,14 @@ public class GetRequest11 extends JsonPlaceHolderTestBase {
         // == object mapper
         // == pojo class ile birlikte map
 
-
+     HashMap<String,Object> actualData = response.as(HashMap.class);
+            response.prettyPrint();
+      Assert.assertEquals(expectedData.get("userId"), actualData.get("userId"));
+      Assert.assertEquals(expectedData.get("title"),actualData.get("title"));
+     Assert.assertEquals(expectedData.get("completed"),actualData.get("completed"));
 
 
 
     }
 }
+
